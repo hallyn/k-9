@@ -58,6 +58,7 @@ import com.fsck.k9.ui.messageview.MessageViewFragment;
 import com.fsck.k9.ui.messageview.MessageViewFragment.MessageViewFragmentListener;
 import com.fsck.k9.view.MessageHeader;
 import com.fsck.k9.view.MessageTitleView;
+import com.fsck.k9.view.NonLockingScrollView;
 import com.fsck.k9.view.ViewSwitcher;
 import com.fsck.k9.view.ViewSwitcher.OnSwitchCompleteListener;
 import de.cketti.library.changelog.ChangeLog;
@@ -599,7 +600,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
             case KeyEvent.KEYCODE_VOLUME_UP: {
                 if (messageViewFragment != null && displayMode != DisplayMode.MESSAGE_LIST &&
                         K9.useVolumeKeysForNavigationEnabled()) {
-                    showPreviousMessage();
+                    NonLockingScrollView scrollView = (NonLockingScrollView) findViewById(R.id.message_scroll_view);
+                    scrollView.pageScroll(View.FOCUS_UP);
                     return true;
                 } else if (displayMode != DisplayMode.MESSAGE_VIEW &&
                         K9.useVolumeKeysForListNavigationEnabled()) {
@@ -612,7 +614,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
             case KeyEvent.KEYCODE_VOLUME_DOWN: {
                 if (messageViewFragment != null && displayMode != DisplayMode.MESSAGE_LIST &&
                         K9.useVolumeKeysForNavigationEnabled()) {
-                    showNextMessage();
+                    NonLockingScrollView scrollView = (NonLockingScrollView) findViewById(R.id.message_scroll_view);
+                    scrollView.pageScroll(View.FOCUS_DOWN);
                     return true;
                 } else if (displayMode != DisplayMode.MESSAGE_VIEW &&
                         K9.useVolumeKeysForListNavigationEnabled()) {
@@ -752,6 +755,35 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
                 }
                 return false;
             }
+            case KeyEvent.KEYCODE_DPAD_UP: {
+                if (messageViewFragment != null && displayMode == DisplayMode.MESSAGE_VIEW) {
+                    NonLockingScrollView scrollView = (NonLockingScrollView) findViewById(R.id.message_scroll_view);
+                    scrollView.pageScroll(View.FOCUS_UP);
+                    return true;
+                }
+            }
+            case KeyEvent.KEYCODE_DPAD_DOWN: {
+                if (messageViewFragment != null && displayMode == DisplayMode.MESSAGE_VIEW) {
+                    NonLockingScrollView scrollView = (NonLockingScrollView) findViewById(R.id.message_scroll_view);
+                    scrollView.pageScroll(View.FOCUS_DOWN);
+                    return true;
+                }
+            }
+            case KeyEvent.KEYCODE_2: {
+                if (messageViewFragment != null && displayMode == DisplayMode.MESSAGE_VIEW) {
+                    NonLockingScrollView scrollView = (NonLockingScrollView) findViewById(R.id.message_scroll_view);
+                    scrollView.pageScroll(View.FOCUS_UP);
+                    return true;
+                }
+            }
+            case KeyEvent.KEYCODE_8: {
+                if (messageViewFragment != null && displayMode == DisplayMode.MESSAGE_VIEW) {
+                    NonLockingScrollView scrollView = (NonLockingScrollView) findViewById(R.id.message_scroll_view);
+                    scrollView.pageScroll(View.FOCUS_DOWN);
+                    return true;
+                }
+            }
+
 
         }
 
